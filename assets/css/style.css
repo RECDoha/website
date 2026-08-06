@@ -1,0 +1,257 @@
+/* Rifqa Education Centre — shared site styles
+   Converted from the Claude Design mockups (dc.html) into plain static HTML/CSS.
+   Page layout is mostly inline-styled to match the source design 1:1; this file
+   only holds what inline styles can't express (hover states, keyframes, reset)
+   plus the responsive layer at the bottom. */
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Bricolage Grotesque', sans-serif; -webkit-text-size-adjust: 100%; }
+a { text-decoration: none; }
+img { max-width: 100%; }
+
+/* Long unbroken words (URLs, "Testimonials" at display sizes) must not push
+   the page wider than the viewport. */
+h1, h2, h3, p { overflow-wrap: break-word; }
+
+@keyframes rec-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Nav */
+.nav-link { color: #C9B8DE; }
+.nav-link:hover { color: #fff; }
+.btn-book { background: #E0762A; }
+.btn-book:hover { background: #F2A265; }
+
+/* Hero buttons */
+.btn-assess { background: #fff; }
+.btn-assess:hover { background: #EFE8F8; }
+.btn-ghost { border: 2px solid rgba(239,232,248,.35); }
+.btn-ghost:hover { border-color: #fff; }
+
+/* Subject cards */
+.subject-card { border: 1px solid #E8E1D8; }
+.subject-card:hover { border-color: #5E3A8C; box-shadow: 0 8px 24px rgba(94,58,140,.10); }
+
+/* Social icons */
+.social-icon { background: rgba(201,184,222,.14); }
+.social-icon:hover { background: #E0762A; }
+
+/* CTA button */
+.btn-cta-call { background: #1E1428; }
+.btn-cta-call:hover { background: #2A1E38; }
+
+/* Generic link hover (footer, body copy) */
+.link-hover { color: #B08BE0; }
+.link-hover:hover { color: #E0762A; }
+
+
+/* ==========================================================================
+   RESPONSIVE LAYER
+
+   The page layout lives in inline `style` attributes, which outrank normal
+   stylesheet declarations. Every override below therefore carries !important
+   — that is the only way an author stylesheet can beat an inline style, and
+   it is deliberate here rather than accidental.
+
+   Hook classes are applied by structural role, not by page:
+     .rec-nav / .rec-brand / .rec-wordmark / .rec-nav-links / .rec-nav-cta
+     .rec-menu-btn      mobile drawer control (a bare checkbox — no JS)
+     .rec-section       block using the 48px site gutter
+     .rec-pt / .rec-pb  that section's vertical padding is >= 56px
+     .rec-grid-2..5     grid with N columns
+     .rec-grid-media    image collage (has explicit grid-template-rows)
+     .rec-grid-tight    grid of small cards; stays 2-up on phones
+     .rec-band          heading-on-one-side, button-on-the-other flex row
+     .rec-h1 / .rec-h2  display headings
+     .rec-blob          decorative radial-gradient circle in a hero
+
+   Breakpoints: 1024px (tablet), 900px (drawer + single column), 600px (phone).
+   Nothing here applies above 1024px, so the desktop design is untouched.
+   ========================================================================== */
+
+/* Belt and braces: no element may widen the document. There is no sticky or
+   fixed positioning on this site, so this is safe. */
+html { overflow-x: hidden; }
+
+/* Desktop: the drawer control does not exist. */
+.rec-menu-btn { display: none; }
+
+
+@media (max-width: 1024px) {
+  /* Step wide card grids down before collapsing them entirely. */
+  .rec-grid-5 { grid-template-columns: repeat(3, 1fr) !important; }
+  .rec-grid-4,
+  .rec-grid-3 { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* The 72px desktop logo is wide enough to crowd the nav links in the
+     900-1024px band, where the nav is still single-row (drawer starts at
+     900px). Shrink it here; the 600px rule below shrinks it further for
+     phones and wins there since it's declared later. */
+  .rec-brand img { height: 52px !important; }
+}
+
+
+@media (max-width: 900px) {
+
+  /* ---- Navbar → logo + CTA + hamburger, with a drawer underneath ---- */
+  .rec-nav {
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    padding: 14px 20px !important;
+  }
+  .rec-brand { order: 1; }
+  .rec-nav-cta {
+    order: 2;
+    margin-left: auto;
+    font-size: 13px !important;
+    padding: 10px 16px !important;
+    white-space: nowrap;
+  }
+  .rec-menu-btn {
+    order: 3;
+    display: block;
+    -webkit-appearance: none;
+    appearance: none;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(239,232,248,.24);
+    border-radius: 10px;
+    cursor: pointer;
+    background: transparent no-repeat center / 22px 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EFE8F8' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 6h18M3 12h18M3 18h18'/%3E%3C/svg%3E");
+  }
+  .rec-menu-btn:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EFE8F8' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M5 5l14 14M19 5L5 19'/%3E%3C/svg%3E");
+  }
+  .rec-menu-btn:focus-visible {
+    outline: 2px solid #F2A265;
+    outline-offset: 2px;
+  }
+
+  .rec-nav-links {
+    order: 4;
+    display: none !important;
+    width: 100%;
+    margin-left: 0 !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    padding: 4px 0 2px;
+  }
+  .rec-menu-btn:checked ~ .rec-nav-links { display: flex !important; }
+  /* The current-page marker is an inline orange border-bottom, which survives
+     this rule by virtue of being inline — that is intentional. */
+  .rec-nav-links > * {
+    padding: 13px 2px !important;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(239,232,248,.10);
+  }
+  .rec-nav-links > *:last-child { border-bottom: 0; }
+
+  /* ---- Section gutters ---- */
+  .rec-section {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .rec-pt { padding-top: 48px !important; }
+  .rec-pb { padding-bottom: 48px !important; }
+
+  /* ---- Display headings ---- */
+  .rec-h1 {
+    font-size: clamp(34px, 8.2vw, 56px) !important;
+    line-height: 1.06 !important;
+    letter-spacing: -1px !important;
+    max-width: none !important;
+  }
+  .rec-h2 {
+    font-size: clamp(26px, 5.6vw, 36px) !important;
+    line-height: 1.15 !important;
+    letter-spacing: -.5px !important;
+  }
+
+  /* ---- Grids collapse to a single column ---- */
+  .rec-grid-2,
+  .rec-grid-3,
+  .rec-grid-4,
+  .rec-grid-5 {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    gap: 16px !important;
+  }
+  /* Small one-line cards stay side by side rather than becoming a long stack. */
+  .rec-grid-tight { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Image collages become a compact thumbnail grid. Row/column spans from the
+     desktop layout would otherwise leave holes. */
+  .rec-grid-media {
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: auto !important;
+    gap: 10px !important;
+  }
+  .rec-grid-media > * {
+    grid-row: auto !important;
+    grid-column: auto !important;
+    height: 150px !important;
+  }
+
+  .rec-hero-strip > img { height: 180px !important; }
+
+  /* ---- Heading/button bands stack ---- */
+  .rec-band {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 22px !important;
+  }
+  .rec-band > * {
+    flex: none !important;
+    max-width: none !important;
+  }
+
+  /* ---- Decorative hero glow, scaled to the smaller canvas ---- */
+  .rec-blob {
+    width: 280px !important;
+    height: 280px !important;
+    right: -80px !important;
+    top: -90px !important;
+  }
+
+  /* ---- Tap targets ---- */
+  .social-icon {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .rec-section {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+  .rec-pt { padding-top: 40px !important; }
+  .rec-pb { padding-bottom: 40px !important; }
+
+  .rec-brand img { height: 34px !important; }
+
+  /* The founder card's 56px inset leaves too little room for its copy. */
+  [style*="padding:56px;"] { padding: 24px 20px !important; }
+
+  /* Side-by-side hero buttons overflow; let them wrap and share the width. */
+  .rec-btn-row { flex-wrap: wrap !important; }
+  .rec-btn-row > a {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  .rec-grid-media > * { height: 120px !important; }
+}
+
+
+@media (max-width: 360px) {
+  /* Reclaim the width the wordmark costs beside the logo. */
+  .rec-wordmark { display: none; }
+}
