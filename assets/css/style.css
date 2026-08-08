@@ -30,6 +30,183 @@ h1, h2, h3, p { overflow-wrap: break-word; }
 .btn-ghost { border: 2px solid rgba(239,232,248,.35); }
 .btn-ghost:hover { border-color: #fff; }
 
+/* Hero announcement box — term-start notice, sits opposite the hero eyebrow.
+   Brand orange with the dark ink used on every other orange surface
+   (.btn-book, the marquee). */
+.rec-announce {
+  background: #E0762A;
+  box-shadow: 0 10px 28px rgba(224, 118, 42, .22);
+}
+.rec-announce-dot {
+  background: #1E1428;
+  box-shadow: 0 0 0 0 rgba(30, 20, 40, .5);
+  animation: rec-announce-pulse 2.4s ease-out infinite;
+}
+@keyframes rec-announce-pulse {
+  to { box-shadow: 0 0 0 10px rgba(30, 20, 40, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rec-announce-dot { animation: none; }
+}
+
+/* ---- Highlights miniplayer (about.html) ------------------------------------
+   Opens docked bottom-right; the expand control swaps it to a centred modal
+   with a backdrop. State lives in data-open / data-mode on .rec-vp. */
+.rec-vp-trigger {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.rec-vp-play { transition: transform .18s ease, background .18s ease; }
+.rec-vp-trigger:hover .rec-vp-play { transform: scale(1.08); background: #E0762A; }
+.rec-vp-trigger:focus-visible { outline: 3px solid #F2A265; outline-offset: 4px; border-radius: 6px; }
+
+.rec-vp { position: fixed; inset: 0; z-index: 60; display: none; }
+.rec-vp[data-open="true"] { display: block; }
+
+.rec-vp-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 7, 18, .72);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+/* The miniplayer must not blanket the page — only the expanded state does. */
+.rec-vp[data-mode="full"] .rec-vp-backdrop { opacity: 1; pointer-events: auto; }
+
+.rec-vp-shell {
+  position: absolute;
+  background: #1E1428;
+  border: 1px solid rgba(201, 184, 222, .22);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+}
+.rec-vp[data-mode="mini"] .rec-vp-shell {
+  right: 20px;
+  bottom: 20px;
+  width: min(420px, calc(100vw - 32px));
+}
+.rec-vp[data-mode="full"] .rec-vp-shell {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1080px, 92vw);
+}
+
+.rec-vp-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px 9px 14px;
+  background: #2A1E38;
+}
+.rec-vp-title {
+  margin-right: auto;
+  font-size: 13px;
+  font-weight: 800;
+  color: #EFE8F8;
+}
+.rec-vp-btn {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(201, 184, 222, .14);
+  color: #EFE8F8;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.rec-vp-btn:hover { background: #E0762A; color: #1E1428; }
+
+.rec-vp-frame { aspect-ratio: 16 / 9; background: #000; }
+.rec-vp-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ---- Video testimonial cards -------------------------------------------
+   Fixed-width cards in a centred wrapping row, so the band reads as
+   deliberate at any count: a centred pair at two, 3+2 centred at five.
+   Each is a facade — the Drive iframe is built on click by miniplayer.js. */
+.rec-vcard {
+  width: 340px;
+  max-width: 100%;
+  padding: 0;
+  border: 1px solid rgba(176, 139, 224, .25);
+  border-radius: 20px;
+  background: #2A1E38;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.rec-vcard:hover {
+  transform: translateY(-3px);
+  border-color: #E0762A;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .4);
+}
+.rec-vcard:focus-visible { outline: 3px solid #F2A265; outline-offset: 3px; }
+
+/* Poster is Drive's own thumbnail (one ~17KB jpeg, not a whole iframe). The
+   gradient underneath is the fallback: if the file is not publicly shared
+   Drive returns an HTML sign-in page, the <img> fails to decode and removes
+   itself, and the card still looks deliberate rather than broken. */
+.rec-vcard-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 45%, rgba(94, 58, 140, .85), #1E1428 72%);
+}
+.rec-vcard-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Scrim so the orange play button holds up over a bright frame. */
+.rec-vcard-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 20, 40, .3);
+}
+.rec-vcard-play {
+  position: relative;
+  z-index: 1;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #E0762A;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .45);
+  transition: transform .18s ease;
+}
+.rec-vcard:hover .rec-vcard-play { transform: scale(1.08); }
+
+.rec-vcard-meta { padding: 15px 18px 17px; }
+.rec-vcard-name { display: block; font-weight: 800; font-size: 15px; color: #fff; }
+.rec-vcard-role { display: block; margin-top: 3px; font-size: 12.5px; color: #9B8BB5; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rec-vcard, .rec-vcard-play { transition: none; }
+  .rec-vcard:hover { transform: none; }
+  .rec-vcard:hover .rec-vcard-play { transform: none; }
+}
+
 /* Subject cards */
 .subject-card { border: 1px solid #E8E1D8; }
 .subject-card:hover { border-color: #5E3A8C; box-shadow: 0 8px 24px rgba(94,58,140,.10); }
@@ -71,8 +248,10 @@ h1, h2, h3, p { overflow-wrap: break-word; }
    Nothing here applies above 1024px, so the desktop design is untouched.
    ========================================================================== */
 
-/* Belt and braces: no element may widen the document. There is no sticky or
-   fixed positioning on this site, so this is safe. */
+/* Belt and braces: no element may widen the document. The one fixed-position
+   element on the site is the .rec-vp miniplayer, which is unaffected —
+   overflow on the root does not establish a containing block for fixed
+   descendants (only transform/filter/perspective/contain do). */
 html { overflow-x: hidden; }
 
 /* Desktop: the drawer control does not exist. */
@@ -248,6 +427,16 @@ html { overflow-x: hidden; }
   }
 
   .rec-grid-media > * { height: 120px !important; }
+
+  /* Stacked under the eyebrow by now, and the text wraps to 2-3 lines — let it
+     span the gutter and top-align the dot with the first line. */
+  .rec-announce {
+    align-self: stretch !important;
+    align-items: flex-start !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+  }
+  .rec-announce-dot { margin-top: 6px; }
 }
 
 
