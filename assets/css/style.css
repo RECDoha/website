@@ -219,6 +219,38 @@ h1, h2, h3, p { overflow-wrap: break-word; }
 .btn-cta-call { background: #1E1428; }
 .btn-cta-call:hover { background: #2A1E38; }
 
+/* Back-to-top, in the footer's bottom bar on every page. A plain #top link
+   rather than a scripted control — the anchor still works if CSS or JS is
+   unavailable, and needs no floating element or scroll listener. */
+.rec-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 9px 18px;
+  border: 1px solid rgba(201, 184, 222, .28);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #C9B8DE;
+  white-space: nowrap;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.rec-to-top:hover {
+  background: #E0762A;
+  border-color: #E0762A;
+  color: #1E1428;
+}
+.rec-to-top:focus-visible { outline: 3px solid #F2A265; outline-offset: 3px; }
+
+/* Smooth only for viewers who have not asked motion to be reduced. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rec-to-top { transition: none; }
+}
+
 /* Generic link hover (footer, body copy) */
 .link-hover { color: #B08BE0; }
 .link-hover:hover { color: #E0762A; }
