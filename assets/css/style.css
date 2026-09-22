@@ -49,6 +49,121 @@ h1, h2, h3, p { overflow-wrap: break-word; }
   .rec-announce-dot { animation: none; }
 }
 
+/* ---- Enrolment popup (index.html) ------------------------------------------
+   Native <dialog>, opened by announce.js. Same orange + dark ink as the hero
+   banner so the two read as one message. */
+.rec-popup {
+  width: min(480px, calc(100vw - 32px));
+  max-width: none;
+  padding: 34px 32px 30px;
+  border: 0;
+  border-radius: 20px;
+  background: #E0762A;
+  color: #1E1428;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .55);
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+.rec-popup[open] { animation: rec-popup-in .32s cubic-bezier(.2, .9, .3, 1.15); }
+.rec-popup::backdrop {
+  background: rgba(12, 7, 18, .72);
+  animation: rec-popup-fade .25s ease;
+}
+@keyframes rec-popup-in {
+  from { opacity: 0; transform: translateY(18px) scale(.94); }
+}
+@keyframes rec-popup-fade {
+  from { opacity: 0; }
+}
+
+.rec-popup-x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(30, 20, 40, .12);
+  color: #1E1428;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.rec-popup-x:hover { background: rgba(30, 20, 40, .22); }
+
+.rec-popup-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3D2461;
+}
+.rec-popup-eyebrow .rec-announce-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.rec-popup-title {
+  margin: 0 36px 26px 0;
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -.3px;
+}
+.rec-popup-title strong { font-weight: 800; }
+/* Receives focus on open (autofocus) so screen readers start at the message;
+   it is not interactive, so no ring. */
+.rec-popup .rec-popup-title:focus { outline: none; }
+
+.rec-popup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.rec-popup-actions form { margin: 0; }
+.rec-popup-cta {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 100px;
+  background: #1E1428;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15.5px;
+}
+.rec-popup-cta:hover { background: #2A1E38; }
+.rec-popup-later {
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 100px;
+  background: none;
+  color: #1E1428;
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+.rec-popup-later:hover { background: rgba(30, 20, 40, .1); }
+.rec-popup :focus-visible { outline: 3px solid #1E1428; outline-offset: 3px; }
+
+@media (max-width: 600px) {
+  .rec-popup { padding: 28px 22px 24px; }
+  .rec-popup-title { font-size: 21px; }
+  .rec-popup-actions > * { flex: 1 1 auto; text-align: center; }
+  .rec-popup-later { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rec-popup[open], .rec-popup::backdrop { animation: none; }
+}
+
 /* ---- Highlights miniplayer (about.html) ------------------------------------
    Opens docked bottom-right; the expand control swaps it to a centred modal
    with a backdrop. State lives in data-open / data-mode on .rec-vp. */

@@ -39,9 +39,9 @@
     <div class="rec-blob" style="position:absolute;right:-120px;top:-140px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(94,58,140,.55),transparent 70%)"></div>
     <div class="rec-band" style="display:flex;align-items:center;justify-content:space-between;gap:28px;margin-bottom:24px;position:relative">
       <div style="display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:1.5px;color:#F2A265;text-transform:uppercase"><span style="width:26px;height:2px;background:#F2A265;flex:none"></span>Doha's award-winning British Curriculum centre</div>
-      <div class="rec-announce" style="display:inline-flex;align-items:center;gap:11px;padding:13px 22px;border-radius:10px;font-size:15px;line-height:1.4;font-weight:700;color:#1E1428">
+      <div class="rec-announce" style="display:inline-flex;align-items:center;gap:11px;padding:13px 22px;border-radius:10px;font-size:15px;line-height:1.4;font-weight:500;color:#1E1428">
         <span class="rec-announce-dot" style="width:9px;height:9px;border-radius:50%;flex:none"></span>
-        <span>Classes for the Academic Year 2026/27 will start on <span style="font-weight:800">30th August</span></span>
+        <span>Classes for the academic year of 26/27 have started, <strong style="font-weight:800">enrollment is open</strong></span>
       </div>
     </div>
     <div class="rec-band" style="display:flex;gap:48px;align-items:center;justify-content:space-between;position:relative">
@@ -169,5 +169,18 @@
   </div>
 
 </div>
+
+<!-- enrolment popup — opened on load by announce.js; the hero .rec-announce
+     banner carries the same message for anyone without JS -->
+<dialog class="rec-popup" id="rec-popup" aria-labelledby="rec-popup-title">
+  <form method="dialog" class="rec-popup-close-form"><button class="rec-popup-x" aria-label="Close">✕</button></form>
+  <div class="rec-popup-eyebrow"><span class="rec-announce-dot"></span>Academic year 2026/27</div>
+  <h2 class="rec-popup-title" id="rec-popup-title" tabindex="-1" autofocus>Classes for the academic year of 26/27 have started, <strong>enrollment is open</strong></h2>
+  <div class="rec-popup-actions">
+    <a href="register.html" class="rec-popup-cta">Book a lesson</a>
+    <form method="dialog"><button class="rec-popup-later">Maybe later</button></form>
+  </div>
+</dialog>
+<script src="assets/js/announce.js" defer></script>
 </body>
 </html>
