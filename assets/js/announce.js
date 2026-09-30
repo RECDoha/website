@@ -1,4 +1,4 @@
-/* Enrolment popup (index.html).
+/* Notice popup (index.html).
  *
  * Opens the #rec-popup <dialog> shortly after load. A native modal dialog
  * gives focus trapping, Esc-to-close and the ::backdrop for free; this file
@@ -12,7 +12,9 @@
  * Without JS the dialog never opens and the hero banner carries the message.
  */
 (function () {
-  var KEY = 'rec-popup-dismissed';
+  /* Rename the key whenever the popup's message changes, so visitors who
+     closed the previous one this session still see the new one. */
+  var KEY = 'rec-popup-dismissed-y11-13-deadline';
   var dlg = document.getElementById('rec-popup');
   if (!dlg || typeof dlg.showModal !== 'function') return;
 
